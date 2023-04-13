@@ -1,4 +1,4 @@
-# Integration for Allure TestOps and GitLab via API for Auto-closing Allure Defects
+# Allure TestOps and GitLab API integration for auto-closing Allure Defects
 
 This is a simple Java Maven TestNG integration that connects Allure TestOps and GitLab via API for automatically closing 
 Allure defects.
