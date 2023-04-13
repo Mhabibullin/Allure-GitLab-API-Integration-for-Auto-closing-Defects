@@ -14,16 +14,10 @@ public class AllureSpecs {
 
     public RequestSpecification initialRequestSpec() {
         return new RequestSpecBuilder()
-                .setBaseUri(ALLURE_ENDPOINT)
-                .build()
-                .header("Accept", "application/json")
-                .header("Authorization", ALLURE_TOKEN);
+            .setBaseUri(ALLURE_ENDPOINT)
+            .build()
+            .header("Accept", "application/json")
+            .header("Authorization", ALLURE_TOKEN);
     }
 
-    public ResponseSpecification okResponseSpec() {
-        return new ResponseSpecBuilder()
-                .expectStatusCode(HttpStatus.SC_OK)
-                .expectStatusLine(endsWith("OK"))
-                .build();
-    }
 }

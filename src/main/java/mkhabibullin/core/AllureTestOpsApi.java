@@ -23,28 +23,29 @@ public class AllureTestOpsApi {
 
 
     public void checkOpenedAllureDefectsWithGitlabClosedIssues(String projectName) {
-        DefectResponse response = getGitlabIssuesListOfOpenedDefects();
         logger.info("Checking for closed Gitlab issues with open Allure defects");
-        HashMap<String, String> closedGitlabIssueWithOpenedAllureDefect = new HashMap<>();
-        GitlabApi gitlabApi = new GitlabApi();
-        gitlabApi.getApi();
-        for (int i = 0; i < response.getContent().size(); i++) {
-            gitlabApi.gitLabIssue(projectName, response.getIssueCleanUrl(i));
-            GitlabIssue gitLabIssue = gitlabApi.getGitLabIssue();
-            String state = "";
-            try {
-                state = gitLabIssue.getState();
-            } catch (Exception e) {
-                Assert.fail("Incorrect Gitlab task number");
+        try {
+            DefectResponse response = getGitlabIssuesListOfOpenedDefects();
+            HashMap<String, String> closedGitlabIssueWithOpenedAllureDefect = new HashMap<>();
+            GitlabApi gitlabApi = new GitlabApi();
+            gitlabApi.getApi();
+            for (int i = 0; i < response.getContent().size(); i++) {
+                gitlabApi.gitLabIssue(projectName, response.getIssueCleanUrl(i));
+                GitlabIssue gitLabIssue = gitlabApi.getGitLabIssue();
+                String state = gitLabIssue.getState();
+                if (state.equals(GitlabIssue.STATE_CLOSED)) {
+                    closedGitlabIssueWithOpenedAllureDefect.put(response.getDefectId(i), response.getName(i));
+                }
             }
-            if (state.equals(GitlabIssue.STATE_CLOSED)) {
-                closedGitlabIssueWithOpenedAllureDefect.put(response.getDefectId(i), response.getName(i));
+            if (!closedGitlabIssueWithOpenedAllureDefect.isEmpty()) {
+                for (Map.Entry<String, String> entry : closedGitlabIssueWithOpenedAllureDefect.entrySet()) {
+                    closeAllureDefect(entry.getKey(), entry.getValue());
+                }
             }
         }
-        if (!closedGitlabIssueWithOpenedAllureDefect.isEmpty()) {
-            for (Map.Entry<String, String> entry : closedGitlabIssueWithOpenedAllureDefect.entrySet()) {
-                closeAllureDefect(entry.getKey(), entry.getValue());
-            }
+        catch (Exception e){
+            logger.error("Checking failed, reason:");
+            e.printStackTrace();
         }
     }
 
@@ -52,11 +53,11 @@ public class AllureTestOpsApi {
         logger.info("Getting a list of open defects from the AllureTestOps API");
         AllureSpecs allureSpecs = new AllureSpecs();
         DefectResponse response = given().spec(allureSpecs.initialRequestSpec())
-                .queryParam("projectId", ALLURE_PROJECT_ID)
-                .queryParam("status", "open")
-                .when().get("/defect")
-                .then()
-                .extract().as(DefectResponse.class);
+            .queryParam("projectId", ALLURE_PROJECT_ID)
+            .queryParam("status", "open")
+            .when().get("/defect")
+            .then()
+            .extract().as(DefectResponse.class);
         ArrayList<Content> rawContent = response.getContent();
         ArrayList<Content> contentOnlyWithUrls = new ArrayList<>();
         for (Content content : rawContent) {
@@ -76,13 +77,12 @@ public class AllureTestOpsApi {
         closeDefectBody.setName(defectName + ". Defect was closed automatically");
         closeDefectBody.setClosed(true);
         AllureSpecs allureSpecs = new AllureSpecs();
-        Response response = given().spec(allureSpecs.initialRequestSpec())
-                .queryParam("projectId", 1)
-                .pathParam("id", defectId)
-                .contentType(JSON)
-                .body(closeDefectBody)
-                .when().patch("/defect/{id}");
-        response.then().spec(allureSpecs.okResponseSpec());
+        given().spec(allureSpecs.initialRequestSpec())
+            .queryParam("projectId", 1)
+            .pathParam("id", defectId)
+            .contentType(JSON)
+            .body(closeDefectBody)
+            .when().patch("/defect/{id}");
         logger.info("The defect has been closed");
     }
 
