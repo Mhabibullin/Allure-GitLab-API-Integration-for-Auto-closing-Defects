@@ -2,7 +2,8 @@
 
 This is a simple Java Maven TestNG integration that connects Allure TestOps and GitLab via API for automatically closing 
 Allure defects.
-This integration was made as an example of my working with the test framework as SDET.
+
+It was made as an example of my working with the test framework as SDET.
 
 This integration project extends built-in Allure TestOps functionality helps teams to automate the process of closing 
 Allure defects linked with GitLab. On each test launch this integration will automatically search for an opened 
