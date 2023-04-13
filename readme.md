@@ -27,7 +27,3 @@ To use this integration, you need to follow these steps:
 ```bash
 mvn test
 ```
-## Contributing
-
-Contributions to this project are welcome. If you find a bug or have an idea for a new feature, please open an issue or
-submit a pull request.
