@@ -23,12 +23,10 @@ To use this integration, you need to follow these steps:
 * GITLAB_API_KEY: Your GitLab API key
 * GITLAB_BASE_URL: The base URL of your GitLab instance
 ```
-4. Build and run the project using the command:
+4. Build and run test launch using the command:
 ```bash
-mvn clean install
+mvn test
 ```
-5. The integration will start listening to Allure defect events and will create issues in GitLab automatically.
-
 ## Contributing
 
 Contributions to this project are welcome. If you find a bug or have an idea for a new feature, please open an issue or
