@@ -78,7 +78,7 @@ public class AllureTestOpsApi {
         closeDefectBody.setClosed(true);
         AllureSpecs allureSpecs = new AllureSpecs();
         Response response = given().spec(allureSpecs.initialRequestSpec())
-            .queryParam("projectId", 1)
+            .queryParam("projectId", ALLURE_PROJECT_ID)
             .pathParam("id", defectId)
             .contentType(JSON)
             .body(closeDefectBody)
