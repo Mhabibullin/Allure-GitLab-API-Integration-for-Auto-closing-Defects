@@ -1,18 +1,13 @@
 # Allure TestOps and GitLab API integration for auto-closing Allure Defects
 
-This is a simple Java Maven TestNG integration that connects Allure TestOps and GitLab via API for automatically closing 
-Allure defects.
-
-It was made as an example of my working with the test framework as SDET.
-
-This integration project extends built-in Allure TestOps functionality helps teams to automate the process of closing 
+This integration project extends built-in Allure TestOps functionality and helps teams to automate the process of closing 
 Allure defects linked with GitLab. On each test launch this integration will automatically search for an opened 
 defects in Allure TestOps with linked issue in GitLab and if issue is resolved and closed in GitLab, the 
 Allure defect will also be automatically closed.
 
-## How to Use
+It was made as an example of my working with the test framework as SDET. 
 
-To use this integration, you need to follow these steps:
+## How to Use
 
 1. Clone this repository to your local machine
 2. Set the following environment variables in your system or in your IDE:
@@ -27,3 +22,4 @@ To use this integration, you need to follow these steps:
 ```bash
 mvn test
 ```
+4. Look at the result in console
