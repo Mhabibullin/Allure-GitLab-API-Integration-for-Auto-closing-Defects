@@ -5,6 +5,8 @@ import org.gitlab.api.GitlabAPI;
 import org.gitlab.api.TokenType;
 import org.gitlab.api.models.GitlabIssue;
 
+import java.io.IOException;
+
 import static mkhabibullin.data.StaticData.*;
 
 
@@ -20,14 +22,11 @@ public class GitlabApi {
         this.gitlabAPI = GitlabAPI.connect(GITLAB_BASE_URL, GITLAB_API_KEY, tokenType);
     }
 
-    public void gitLabIssue(String projectName, String numberIssue) {
+    public void gitLabIssue(String projectName, String numberIssue) throws IOException {
         if (numberIssue != null && !numberIssue.isEmpty()) {
-            try {
-                int projectId = gitlabAPI.getProject(GITLAB_PROJECT, projectName).getId();
-                this.gitLabIssue = gitlabAPI.getIssue(projectId, Integer.parseInt(numberIssue));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            int projectId = gitlabAPI.getProject(GITLAB_PROJECT, projectName).getId();
+            this.gitLabIssue = gitlabAPI.getIssue(projectId, Integer.parseInt(numberIssue));
+
         }
     }
 
