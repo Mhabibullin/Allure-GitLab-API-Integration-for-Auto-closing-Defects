@@ -43,7 +43,7 @@ public class AllureTestOpsApi {
                 }
             }
         }
-        catch (Exception e){
+        catch (Exception | AssertionError e){
             logger.error("Checking failed, reason:");
             e.printStackTrace();
         }
@@ -77,12 +77,13 @@ public class AllureTestOpsApi {
         closeDefectBody.setName(defectName + ". Defect was closed automatically");
         closeDefectBody.setClosed(true);
         AllureSpecs allureSpecs = new AllureSpecs();
-        given().spec(allureSpecs.initialRequestSpec())
+        Response response = given().spec(allureSpecs.initialRequestSpec())
             .queryParam("projectId", 1)
             .pathParam("id", defectId)
             .contentType(JSON)
             .body(closeDefectBody)
             .when().patch("/defect/{id}");
+        response.then().spec(allureSpecs.okResponseSpec());
         logger.info("The defect has been closed");
     }
 

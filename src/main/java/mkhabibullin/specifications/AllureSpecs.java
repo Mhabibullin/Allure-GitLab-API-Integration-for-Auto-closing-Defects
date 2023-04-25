@@ -19,5 +19,10 @@ public class AllureSpecs {
             .header("Accept", "application/json")
             .header("Authorization", ALLURE_TOKEN);
     }
-
+    public ResponseSpecification okResponseSpec() {
+        return new ResponseSpecBuilder()
+            .expectStatusCode(HttpStatus.SC_OK)
+            .expectStatusLine(endsWith("OK"))
+            .build();
+    }
 }
