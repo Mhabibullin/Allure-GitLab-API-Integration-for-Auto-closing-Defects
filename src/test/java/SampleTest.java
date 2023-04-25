@@ -6,10 +6,8 @@ import org.testng.annotations.Test;
 @Listeners(AllureGitlabListener.class)
 public class SampleTest {
 
-    @Test(description = "This is just a sample for run")
+    @Test(description = "Run me to check functionality")
     public void initialTest() {
-        String expectedTitle = "Title";
-        String originalTitle = "Title";
-        Assert.assertEquals(originalTitle, expectedTitle);
+        Assert.assertTrue(true);
     }
 }
