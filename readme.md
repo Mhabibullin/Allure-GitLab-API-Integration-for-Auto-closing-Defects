@@ -6,7 +6,6 @@ defects in Allure TestOps with linked issue in GitLab and if issue is resolved a
 Allure defect will also be automatically closed.
 
 It was made as an example of my working with the test framework as SDET. 
-I used the rest-assured functionality instead of using pure java for api connections to reduce the amount of code in this repo.
 
 ## How to Use
 
