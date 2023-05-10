@@ -5,7 +5,7 @@ Allure defects linked with GitLab. On each test launch this integration will aut
 defects in Allure TestOps with linked issue in GitLab and if issue is resolved and closed in GitLab, the 
 Allure defect will also be automatically closed.
 
-It was made as an example of my working with the test framework as SDET. 
+It was made as an example of my working with the test framework as QA Automation. 
 
 ## How to Use
 
