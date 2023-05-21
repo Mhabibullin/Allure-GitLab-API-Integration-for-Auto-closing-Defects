@@ -46,7 +46,6 @@ public class AllureTestOpsApi {
 
     private DefectResponse getGitlabIssuesListOfOpenedDefects() throws Exception {
         logger.info("Getting a list of open defects from the AllureTestOps API");
-        logger.info("Получаю список открытых дефектов из api AllureTestOps");
         ApiExecution apiExecution = new ApiExecution();
         Header header = new Header();
         header.append("Accept", "application/json");
