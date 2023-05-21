@@ -54,7 +54,7 @@ public class ApiExecution {
                     connection.addRequestProperty(entry.getKey(), entry.getValue());
                 }
             }
-            response = readResponseForEmptyBodyRequest(connection);
+            response = responseForGetRequest(connection);
         } catch (Exception e) {
             if (connection == null) {
                 throw new AssertionError();
@@ -93,7 +93,7 @@ public class ApiExecution {
                     connection.addRequestProperty(entry.getKey(), entry.getValue());
                 }
             }
-            response = readResponseForRequestWithBody(connection, body);
+            response = responseForRequestWithBody(connection, body);
         } catch (Exception e) {
             if (connection == null) {
                 throw new AssertionError();
@@ -107,7 +107,7 @@ public class ApiExecution {
         return response;
     }
 
-    private String readResponseForEmptyBodyRequest(HttpURLConnection connection) throws IOException {
+    private String responseForGetRequest(HttpURLConnection connection) throws IOException {
         StringBuilder response;
         InputStream is;
         if (connection.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
@@ -126,7 +126,7 @@ public class ApiExecution {
         return response.toString();
     }
 
-    private String readResponseForRequestWithBody(HttpURLConnection connection, String body) throws IOException {
+    private String responseForRequestWithBody(HttpURLConnection connection, String body) throws IOException {
         StringBuilder response;
         InputStream is;
         try (DataOutputStream wr = new DataOutputStream(connection.getOutputStream())) {
