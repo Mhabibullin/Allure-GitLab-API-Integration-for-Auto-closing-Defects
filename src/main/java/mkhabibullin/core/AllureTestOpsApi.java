@@ -47,11 +47,11 @@ public class AllureTestOpsApi {
     private DefectResponse getGitlabIssuesListOfOpenedDefects() throws Exception {
         logger.info("Getting a list of open defects from the AllureTestOps API");
         logger.info("Получаю список открытых дефектов из api AllureTestOps");
-        ApiExecution apiExecution = new ApiExecution();
+        ApiExecutionAllure apiExecutionAllure = new ApiExecutionAllure();
         Header header = new Header();
         header.append("Accept", "application/json");
         header.append("Authorization", ALLURE_TOKEN);
-        String result = apiExecution.executeGetJson(ALLURE_ENDPOINT + "/defect", "projectId=" + ALLURE_PROJECT_ID + "&status=open",
+        String result = apiExecutionAllure.executeGetJson(ALLURE_ENDPOINT + "/defect", "projectId=" + ALLURE_PROJECT_ID + "&status=open",
                 header);
         JsonHelper jsonHelper = new JsonHelper();
         DefectResponse defectResponse = (DefectResponse) jsonHelper.readValue(result, DefectResponse.class);
@@ -72,13 +72,13 @@ public class AllureTestOpsApi {
     private void closeAllureDefect(String defectId, String defectName) throws Exception {
         logger.info("Found open defects with a closed issue, close the defect: " + defectId);
         DefectPatchDto closeDefectBody = new DefectPatchDto(defectName + ". Defect has been closed automatically", true);
-        ApiExecution apiExecution = new ApiExecution();
+        ApiExecutionAllure apiExecutionAllure = new ApiExecutionAllure();
         Header header = new Header();
         header.append("Accept", "application/json");
         header.append("Authorization", ALLURE_TOKEN);
         JsonHelper jsonHelper = new JsonHelper();
         JSONObject body = jsonHelper.toJSONObject(closeDefectBody);
-        apiExecution.executePatchJson(ALLURE_ENDPOINT + "/defect/" + defectId, "projectId=" + ALLURE_PROJECT_ID,
+        apiExecutionAllure.executePatchJson(ALLURE_ENDPOINT + "/defect/" + defectId, "projectId=" + ALLURE_PROJECT_ID,
                 header, body.toString());
         logger.info("The defect has been closed");
     }

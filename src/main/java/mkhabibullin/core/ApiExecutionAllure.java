@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.Set;
 
 
-public class ApiExecution {
+public class ApiExecutionAllure {
 
     private static void allowMethods(String... methods) {
         try {
