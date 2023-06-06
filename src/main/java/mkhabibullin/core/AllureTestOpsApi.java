@@ -1,16 +1,20 @@
 package mkhabibullin.core;
 
+import io.restassured.response.Response;
 import mkhabibullin.models.Content;
 import mkhabibullin.models.DefectPatchDto;
 import mkhabibullin.models.DefectResponse;
+import mkhabibullin.specifications.AllureSpecs;
 import org.apache.log4j.Logger;
 import org.gitlab.api.models.GitlabIssue;
-import org.json.JSONObject;
+import org.testng.Assert;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static io.restassured.RestAssured.given;
+import static io.restassured.http.ContentType.JSON;
 import static mkhabibullin.data.StaticData.*;
 
 
@@ -38,24 +42,23 @@ public class AllureTestOpsApi {
                     closeAllureDefect(entry.getKey(), entry.getValue());
                 }
             }
-        } catch (Exception | AssertionError e) {
+        }
+        catch (Exception | AssertionError e){
             logger.error("Checking failed, reason:");
             e.printStackTrace();
         }
     }
 
-    private DefectResponse getGitlabIssuesListOfOpenedDefects() throws Exception {
+    private DefectResponse getGitlabIssuesListOfOpenedDefects() {
         logger.info("Getting a list of open defects from the AllureTestOps API");
-        logger.info("Получаю список открытых дефектов из api AllureTestOps");
-        ApiExecutionAllure apiExecutionAllure = new ApiExecutionAllure();
-        Header header = new Header();
-        header.append("Accept", "application/json");
-        header.append("Authorization", ALLURE_TOKEN);
-        String result = apiExecutionAllure.executeGetJson(ALLURE_ENDPOINT + "/defect", "projectId=" + ALLURE_PROJECT_ID + "&status=open",
-                header);
-        JsonHelper jsonHelper = new JsonHelper();
-        DefectResponse defectResponse = (DefectResponse) jsonHelper.readValue(result, DefectResponse.class);
-        ArrayList<Content> rawContent = defectResponse.getContent();
+        AllureSpecs allureSpecs = new AllureSpecs();
+        DefectResponse response = given().spec(allureSpecs.initialRequestSpec())
+            .queryParam("projectId", ALLURE_PROJECT_ID)
+            .queryParam("status", "open")
+            .when().get("/defect")
+            .then()
+            .extract().as(DefectResponse.class);
+        ArrayList<Content> rawContent = response.getContent();
         ArrayList<Content> contentOnlyWithUrls = new ArrayList<>();
         for (Content content : rawContent) {
             try {
@@ -64,22 +67,23 @@ public class AllureTestOpsApi {
             } catch (NullPointerException ignore) {
             }
         }
-        defectResponse.setContent(contentOnlyWithUrls);
-        return defectResponse;
+        response.setContent(contentOnlyWithUrls);
+        return response;
     }
 
-
-    private void closeAllureDefect(String defectId, String defectName) throws Exception {
+    private void closeAllureDefect(String defectId, String defectName) {
         logger.info("Found open defects with a closed issue, close the defect: " + defectId);
-        DefectPatchDto closeDefectBody = new DefectPatchDto(defectName + ". Defect has been closed automatically", true);
-        ApiExecutionAllure apiExecutionAllure = new ApiExecutionAllure();
-        Header header = new Header();
-        header.append("Accept", "application/json");
-        header.append("Authorization", ALLURE_TOKEN);
-        JsonHelper jsonHelper = new JsonHelper();
-        JSONObject body = jsonHelper.toJSONObject(closeDefectBody);
-        apiExecutionAllure.executePatchJson(ALLURE_ENDPOINT + "/defect/" + defectId, "projectId=" + ALLURE_PROJECT_ID,
-                header, body.toString());
+        DefectPatchDto closeDefectBody = new DefectPatchDto();
+        closeDefectBody.setName(defectName + ". Defect was closed automatically");
+        closeDefectBody.setClosed(true);
+        AllureSpecs allureSpecs = new AllureSpecs();
+        Response response = given().spec(allureSpecs.initialRequestSpec())
+            .queryParam("projectId", ALLURE_PROJECT_ID)
+            .pathParam("id", defectId)
+            .contentType(JSON)
+            .body(closeDefectBody)
+            .when().patch("/defect/{id}");
+        response.then().spec(allureSpecs.okResponseSpec());
         logger.info("The defect has been closed");
     }
 
