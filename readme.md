@@ -23,8 +23,8 @@ It was made as an example of my working with the test framework as QA Automation
 * GITLAB_PROJECT - Your Gitlab project name
 * ALLURE_PROJECT_ID - Your Allure project ID
 ```
-4. Build and run test launch using the command:
+4. Build and run example test execution using the command:
 ```bash
 mvn test
 ```
-5. Look at the result in console
+5. Process and result will be displayed in the console logs
