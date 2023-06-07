@@ -18,7 +18,7 @@ It was made as an example of my working with the test framework as QA Automation
 * GITLAB_API_KEY: Your GitLab API key
 * GITLAB_BASE_URL: The base URL of your GitLab instance
 ```
-3. Insert your custom values into static strings in src/main/java/mkhabibullin/data/StaticData.java
+3. Insert your custom values into static strings in `src/main/java/mkhabibullin/data/StaticData.java`
 ```bash
 * GITLAB_PROJECT - Your Gitlab project name
 * ALLURE_PROJECT_ID - Your Allure project ID
