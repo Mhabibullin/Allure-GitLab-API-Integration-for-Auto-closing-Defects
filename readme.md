@@ -20,8 +20,8 @@ It was made as an example of my working with the test framework as QA Automation
 ```
 3. Insert your custom values into static strings in src/main/java/mkhabibullin/data/StaticData.java
 ```bash
-GITLAB_PROJECT - Your Gitlab project name
-ALLURE_PROJECT_ID - Your Allure project ID
+* GITLAB_PROJECT - Your Gitlab project name
+* ALLURE_PROJECT_ID - Your Allure project ID
 ```
 4. Build and run test launch using the command:
 ```bash
