@@ -13,10 +13,10 @@ It was made as an example of my working with the test framework as QA Automation
 2. Set the following environment variables in your system or in your IDE:
 
 ```bash
-* ALLURE_API_KEY: Your Allure API token (format: `Api-Token 00000000-0000-0000-0000-000000000000`)
-* ALLURE_BASE_URL: The base URL of your Allure instance (format: `https://your.url/api/rs`)
-* GITLAB_API_KEY: Your GitLab API key (format: `00000000000000000000`)
-* GITLAB_BASE_URL: The base URL of your GitLab instance (format: `https://your.url`)
+* ALLURE_API_KEY (format: `Api-Token 00000000-0000-0000-0000-000000000000`)
+* ALLURE_BASE_URL (format: `https://your.url/api/rs`)
+* GITLAB_API_KEY (format: `00000000000000000000`)
+* GITLAB_BASE_URL (format: `https://your.url`)
 ```
 3. Insert your custom values into static strings in `src/main/java/mkhabibullin/data/StaticData.java`
 ```bash
