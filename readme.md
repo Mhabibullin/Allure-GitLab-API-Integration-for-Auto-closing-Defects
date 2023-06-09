@@ -14,19 +14,20 @@ It was made as an example of my working with the test framework as QA Automation
 2. Set the following environment variables in your system or in your IDE:
 
 ```bash
-* ALLURE_API_KEY: Your Allure API key
-* ALLURE_BASE_URL: The base URL of your Allure instance
-* GITLAB_API_KEY: Your GitLab API key
-* GITLAB_BASE_URL: The base URL of your GitLab instance
+* ALLURE_API_KEY 
+* ALLURE_BASE_URL 
+* GITLAB_API_KEY
+* GITLAB_BASE_URL
 ```
-
-3. Build and run test launch using the command:
-
+3. Insert your custom values into static strings in `src/main/java/mkhabibullin/data/StaticData.java`
+```bash
+* GITLAB_PROJECT - Your Gitlab project name
+* ALLURE_PROJECT_ID - Your Allure project ID
+```
+4. Build and run example test execution using the command:
 ```bash
 mvn test
 ```
+5. Process and result will be displayed in the console logs
 
-4. Look at the result in console:
-
-
-   ![001.png](img/001.png)
+   ![06.png](img/06.png)
