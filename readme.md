@@ -30,4 +30,4 @@ mvn test
 ```
 5. Process and result will be displayed in the console logs
 
-   ![06.png](img/06.png)
+   ![001.png](img/001.png)
